@@ -1,4 +1,6 @@
-let Store = [];
+const Store = require('./store');
+
+let store = new Store();
 let id = 0;
 
 function _shorten(url) {
@@ -12,19 +14,13 @@ function shorten(url) {
     hits: 0
   };
 
-  Store.push(data);
+  store.insert(data);
   id++;
   return data;
 }
 
 function get_data(short_url) {
-  for (var data of Store) {
-    if (data.short_url == short_url) {
-      return data;
-    }
-  }
-
-  return null;
+  return store.get_data('short_url', short_url);
 }
 
 function increment_hits(short_url) {
@@ -33,7 +29,7 @@ function increment_hits(short_url) {
 }
 
 function reset() {
-  Store = [];
+  store = new Store();
   id = 0;
 }
 
