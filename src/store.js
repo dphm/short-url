@@ -1,20 +1,19 @@
 class Store {
   constructor() {
-    this.data = [];
+    this.data = {};
   }
 
-  get_data(field, value) {
-    for (let data of this.data) {
-      if (data[field] === value) {
-        return data;
-      }
+  get(id) {
+    let data = this.data[id];
+    if (data) {
+      return data;
+    } else {
+      return null;
     }
-
-    return null;
   }
 
-  insert(data) {
-    this.data.push(data);
+  set(id, data) {
+    this.data[id] = data;
   }
 }
 

@@ -14,10 +14,10 @@ server.get('/', (req, res) => {
 });
 
 server.get('/short/:id', (req, res) => {
-  let short_url = req.path;
-  let data = shortener.get_data(short_url);
+  let id = req.params.id;
+  let data = shortener.get_data(id);
   if (data) {
-    shortener.increment_hits(short_url);
+    shortener.increment_hits(id);
     res.redirect(data.url);  
   } else {
     res.status(404).send('URL Not Found');
@@ -25,8 +25,8 @@ server.get('/short/:id', (req, res) => {
 });
 
 server.get('/stats/:id', (req, res) => {
-  let short_url = `/short/${req.params.id}`;
-  let data = shortener.get_data(short_url);
+  let id = req.params.id;
+  let data = shortener.get_data(id);
   if (data) {
     res.send(`Number of hits: ${data.hits}`);
   } else {

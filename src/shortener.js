@@ -12,22 +12,23 @@ class Shortener {
 
   shorten(url) {
     let data = {
+      id: this.id,
       url: url,
       short_url: short_url(this.id),
       hits: 0
     };
 
-    this.store.insert(data);
+    this.store.set(data.id, data);
     this.id++;
     return data;
   }
 
-  get_data(short_url) {
-    return this.store.get_data('short_url', short_url);
+  get_data(id) {
+    return this.store.get(id);
   }
 
-  increment_hits(short_url) {
-    let data = this.get_data(short_url);
+  increment_hits(id) {
+    let data = this.get_data(id);
     data.hits++;
   }
 }

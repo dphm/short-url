@@ -1,12 +1,13 @@
 const Store = require('../src/store');
 
-test('can insert and retreive data', () => {
+test('can get and set data', () => {
   let store = new Store();
+  let id = 'identifier';
   let data = {
     field: 'value'
   };
 
-  store.insert(data);
+  store.set(id, data);
 
-  expect(store.get_data('field', 'value')).toEqual(data);
+  expect(store.get(id)).toEqual(data);
 });
