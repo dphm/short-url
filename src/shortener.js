@@ -1,8 +1,9 @@
 const Store = require('./store');
 
 class Shortener {
-  constructor() {
+  constructor(prefix='s') {
     this.reset();
+    this.prefix = prefix;
   }
 
   reset() {
@@ -14,7 +15,7 @@ class Shortener {
     let data = {
       id: this.id,
       url: url,
-      short_url: short_url(this.id),
+      short_url: `/${this.prefix}/${this.id}`,
       hits: 0
     };
 
@@ -31,10 +32,6 @@ class Shortener {
     let data = this.get_data(id);
     data.hits++;
   }
-}
-
-function short_url(id) {
-  return `/short/${id}`;
 }
 
 module.exports = Shortener;

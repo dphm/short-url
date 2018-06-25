@@ -1,9 +1,15 @@
 const
   bodyParser = require('body-parser'),
   express = require('express'),
-  port = 3000,
   Shortener = require('./shortener'),
-  shortener = new Shortener(),
+
+  config = {
+    port: 3000,
+    short_prefix: 'short',
+    stats_prefix: 'stats'
+  },
+
+  shortener = new Shortener(config.short_prefix),
   server = express();
 
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -13,7 +19,7 @@ server.get('/', (req, res) => {
   res.render('index');
 });
 
-server.get('/short/:id', (req, res) => {
+server.get(`/${config.short_prefix}/:id`, (req, res) => {
   let id = req.params.id;
   let data = shortener.get_data(id);
   if (data) {
@@ -24,7 +30,7 @@ server.get('/short/:id', (req, res) => {
   }
 });
 
-server.get('/stats/:id', (req, res) => {
+server.get(`/${config.stats_prefix}/:id`, (req, res) => {
   let id = req.params.id;
   let data = shortener.get_data(id);
   if (data) {
@@ -40,6 +46,6 @@ server.post('/', (req, res) => {
   res.send(data.short_url);
 });
 
-server.listen(port, () => {
-  console.log(`Listening on localhost:${port}`);
+server.listen(config.port, () => {
+  console.log(`Listening on localhost:${config.port}`);
 });
