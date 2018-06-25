@@ -1,41 +1,39 @@
 const Store = require('./store');
 
-let store = new Store();
-let id = 0;
+class Shortener {
+  constructor() {
+    this.reset();
+  }
 
-function _shorten(url) {
+  reset() {
+    this.store = new Store();
+    this.id = 0;
+  }
+
+  shorten(url) {
+    let data = {
+      url: url,
+      short_url: short_url(this.id),
+      hits: 0
+    };
+
+    this.store.insert(data);
+    this.id++;
+    return data;
+  }
+
+  get_data(short_url) {
+    return this.store.get_data('short_url', short_url);
+  }
+
+  increment_hits(short_url) {
+    let data = this.get_data(short_url);
+    data.hits++;
+  }
+}
+
+function short_url(id) {
   return `/short/${id}`;
 }
 
-function shorten(url) {
-  let data = {
-    url: url,
-    short_url: _shorten(url),
-    hits: 0
-  };
-
-  store.insert(data);
-  id++;
-  return data;
-}
-
-function get_data(short_url) {
-  return store.get_data('short_url', short_url);
-}
-
-function increment_hits(short_url) {
-  let data = get_data(short_url);
-  data.hits++;
-}
-
-function reset() {
-  store = new Store();
-  id = 0;
-}
-
-module.exports = {
-  shorten: shorten,
-  increment_hits: increment_hits,
-  get_data: get_data,
-  reset: reset,
-};
+module.exports = Shortener;

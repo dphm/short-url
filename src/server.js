@@ -2,7 +2,8 @@ const
   bodyParser = require('body-parser'),
   express = require('express'),
   port = 3000,
-  shortener = require('./shortener'),
+  Shortener = require('./shortener'),
+  shortener = new Shortener(),
   server = express();
 
 server.use(bodyParser.urlencoded({ extended: false }));
